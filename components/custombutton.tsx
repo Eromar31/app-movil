@@ -15,8 +15,8 @@ export default function customButton({
         <TouchableOpacity
         
         className="bg-blue-600 py-4 px-6 rounded-xl mt-3 active:bg-blue-800 shadow-sm flex-row justify-center items-center"
-      activeOpacity={0.8}
-      onPress={onPress}
+        activeOpacity={0.8}
+        onPress={onPress}
         >
             <Text className="text-white text-center font-bold text-base tracking-wide">
                 {titulo}

@@ -16,6 +16,8 @@ export interface Solicitud {
 
     estado: string;
 
+    tecnicoAsignado:string;
+
     fechaRegistro: string;
 
 }
