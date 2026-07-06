@@ -13,10 +13,12 @@ export default function customButton({
 }:props){
     return (
         <TouchableOpacity
-        className="bg-blue-950 p-4 rounded-lg mt-3"
-        onPress={onPress}
+        
+        className="bg-blue-600 py-4 px-6 rounded-xl mt-3 active:bg-blue-800 shadow-sm flex-row justify-center items-center"
+      activeOpacity={0.8}
+      onPress={onPress}
         >
-            <Text className="text-white text-center font-bold">
+            <Text className="text-white text-center font-bold text-base tracking-wide">
                 {titulo}
             </Text>
         </TouchableOpacity>
