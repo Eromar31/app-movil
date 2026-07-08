@@ -27,7 +27,12 @@ export default function RootLayout() {
             headerShown: false,
           }}
         />
-
+        <Stack.Screen
+          name="registrarUsuario"
+          options={{
+              title: "Crear Cuenta",
+          }}
+        />
         <Stack.Screen
           name="home"
           options={{

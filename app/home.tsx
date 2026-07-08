@@ -7,6 +7,7 @@ import CustomButton from "../components/custombutton";
 import TarjetaSolicitud from "../components/TarjetaSolicitud";
 import Buscador from "../components/Buscador";
 import FiltroEstados from "../components/FiltroEstados";
+import { Alert } from "react-native";
 
 import { useSolicitudes } from "../hooks/useSolicitudes";
 
@@ -43,6 +44,25 @@ export default function Home() {
     const finalizadas = solicitudes.filter(
         (s) => s.estado === "FINALIZADO"
     ).length;
+
+    function cerrarSesion() {
+        Alert.alert(
+            "Cerrar sesión",
+            "¿Desea salir del sistema?",
+            [
+                {
+                    text: "Cancelar",
+                    style: "cancel",
+                },
+                {
+                    text: "Sí",
+                    onPress: () => {
+                        router.replace("/");
+                    },
+                },
+            ]
+        );
+    }
     return (
         <View className="flex-1 bg-gray-100">
             <View className="bg-blue-900 pt-12 pb-6 px-5 rounded-b-3xl">
@@ -52,6 +72,10 @@ export default function Home() {
                 <Text className="text-blue-200 mt-1">
                     Gestión de Solicitudes Técnicas
                 </Text>
+                <CustomButton
+                    titulo="🚪 Cerrar Sesión"
+                    onPress={cerrarSesion}
+                />
             </View>
             <View className="flex-1 p-4">
                 <View className="flex-row flex-wrap justify-between mb-5">

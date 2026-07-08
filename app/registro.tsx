@@ -12,6 +12,7 @@ import {
     import CustomButton from "../components/custombutton";
     import { router } from "expo-router";
     import { Picker } from "@react-native-picker/picker";
+    import { TouchableOpacity } from "react-native";
     import { useSolicitudes } from "../hooks/useSolicitudes";
     
         interface ErroresRegistro {
@@ -144,28 +145,29 @@ import {
         contentContainerStyle={{ flexGrow: 1 }}
         keyboardShouldPersistTaps="handled"
       >
-
         {/* Encabezado */}
+        <TouchableOpacity
+          onPress={() => router.replace("/home")}
+          className="mb-5"
+        >
+          <Text className="text-blue-700 font-bold text-lg">
+              🏠 Inicio
+          </Text>
+        </TouchableOpacity>
         <View className="bg-blue-900 pt-12 pb-6 px-5 rounded-b-3xl shadow-md">
           <Text className="text-white text-2xl font-bold text-center">
             Nueva Solicitud
           </Text>
-
           <Text className="text-blue-200 text-sm text-center mt-1">
             Ingrese los datos del cliente
           </Text>
         </View>
-
         <View className="flex-1 p-6">
-
           {/* ================= NOMBRE ================= */}
-
           <View className="mb-4">
-
             <Text className="text-gray-700 font-semibold mb-2">
               Nombre del Cliente
             </Text>
-
             <TextInput
               placeholder="Ej. Juan Pérez"
               value={nombre}
@@ -182,19 +184,14 @@ import {
                   : "border-gray-200"
               }`}
             />
-
             {errores.nombre && (
               <Text className="text-red-500 text-sm mt-1">
                 ⚠️ {errores.nombre}
               </Text>
             )}
-
           </View>
-
           {/* ================= TELEFONO ================= */}
-
           <View className="mb-4">
-
             <Text className="text-gray-700 font-semibold mb-2">
               Teléfono
             </Text>
@@ -219,17 +216,12 @@ import {
                 ⚠️ {errores.telefono}
               </Text>
             )}
-
           </View>
-
           {/* ================= TIPO ================= */}
-
           <View className="mb-4">
-
             <Text className="text-gray-700 font-semibold mb-2">
               Tipo de Servicio
             </Text>
-
             <View
               className={`bg-white border rounded-xl ${
                 errores.tipo
@@ -237,109 +229,75 @@ import {
                   : "border-gray-200"
               }`}
             >
-
               <Picker
                 selectedValue={tipo}
                 onValueChange={setTipo}
               >
-
                 <Picker.Item
                   label="Seleccione un servicio..."
                   value=""
                 />
-
                 {tiposServicio.map((servicio) => (
-
                   <Picker.Item
                     key={servicio}
                     label={servicio}
                     value={servicio}
                   />
-
                 ))}
-
               </Picker>
-
             </View>
-
             {errores.tipo && (
               <Text className="text-red-500 text-sm mt-1">
                 ⚠️ {errores.tipo}
               </Text>
             )}
-
           </View>
 
           {/* ================= PRIORIDAD ================= */}
-
           <View className="mb-4">
-
             <Text className="text-gray-700 font-semibold mb-2">
               Prioridad
             </Text>
-
             <View className="bg-white border border-gray-200 rounded-xl">
-
               <Picker
                 selectedValue={prioridad}
                 onValueChange={setPrioridad}
               >
-
                 {prioridades.map((item) => (
-
                   <Picker.Item
                     key={item}
                     label={item}
                     value={item}
                   />
-
                 ))}
-
               </Picker>
-
             </View>
-
           </View>
-
           {/* ================= TECNICO ================= */}
-
           <View className="mb-4">
-
             <Text className="text-gray-700 font-semibold mb-2">
               Técnico Asignado
             </Text>
-
             <View className="bg-white border border-gray-200 rounded-xl">
-
               <Picker
                 selectedValue={tecnicoAsignado}
                 onValueChange={setTecnicoAsignado}
               >
-
                 {tecnicos.map((tecnico) => (
-
                   <Picker.Item
                     key={tecnico}
                     label={tecnico}
                     value={tecnico}
                   />
-
                 ))}
-
               </Picker>
-
             </View>
-
           </View>
-
           {/* ================= DESCRIPCION ================= */}
-
           <View className="mb-6">
-
             <Text className="text-gray-700 font-semibold mb-2">
               Descripción
             </Text>
-
             <TextInput
               placeholder="Explique el problema del cliente..."
               value={descripcion}
@@ -354,30 +312,22 @@ import {
                   : "border-gray-200"
               }`}
             />
-
             {errores.descripcion && (
               <Text className="text-red-500 text-sm mt-1">
                 ⚠️ {errores.descripcion}
               </Text>
             )}
-
             <Text className="text-gray-400 text-right mt-1">
               {descripcion.length}/250
             </Text>
-
           </View>
-
           {/* ================= BOTON ================= */}
-
           <CustomButton
             titulo="Guardar Solicitud"
             onPress={guardar}
           />
-
         </View>
-
       </ScrollView>
-
     </KeyboardAvoidingView>
   );
 }

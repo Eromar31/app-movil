@@ -5,10 +5,10 @@ import {
     TextInput,
     ScrollView,
     Alert,
+    TouchableOpacity,
 } from "react-native";
 
-import { router, useLocalSearchParams } from "expo-router";
-
+import { Stack, router, useLocalSearchParams } from "expo-router";
 import CustomButton from "../components/custombutton";
 import { useSolicitudes } from "../hooks/useSolicitudes";
 import { Picker } from "@react-native-picker/picker";
@@ -108,27 +108,40 @@ export default function Editar() {
     }
 
     return (
+    
 
         <ScrollView className="flex-1 bg-gray-100">
 
             <View className="p-5">
+
+                <TouchableOpacity
+                    onPress={() => router.replace("/home")}
+                    className="mb-5"
+                >
+
+                    <Text className="text-blue-700 font-bold text-lg">
+
+                        🏠 Inicio
+
+                    </Text>
+
+                </TouchableOpacity>
 
                 <Text className="text-3xl font-bold text-blue-900 mb-6">
                     Editar Solicitud
                 </Text>
 
                 <Text className="font-bold">Cliente</Text>
-
                 <TextInput
                     value={cliente}
                     onChangeText={(texto) =>
-                        setCliente(texto.replace(/[0-9]/g, ""))
+                        setCliente(
+                            texto.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, "")
+                        )
                     }
                     className="bg-white rounded-xl p-3 mt-2 mb-4"
                 />
-
                 <Text className="font-bold">Teléfono</Text>
-
                 <TextInput
                     value={telefono}
                     onChangeText={(texto) =>
