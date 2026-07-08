@@ -1,29 +1,29 @@
 import { Solicitud } from "../models/Solicitud";
 
 export type SolicitudAction =
-    | {
-        type: "AGREGAR_SOLICITUD";
-        payload: Solicitud;
-      }
-    | {
-        type: "ACTUALIZAR_SOLICITUD";
-        payload: Solicitud;
-      }
-    | {
-        type: "ELIMINAR_SOLICITUD";
-        payload: number;
-      }
-    | {
-        type: "CAMBIAR_ESTADO";
-        payload: {
-            id: number;
-            estado: string;
+        | {
+            type: "AGREGAR_SOLICITUD";
+            payload: Solicitud;
+        }
+        | {
+            type: "ACTUALIZAR_SOLICITUD";
+            payload: Solicitud;
+        }
+        | {
+            type: "ELIMINAR_SOLICITUD";
+            payload: number;
+        }
+        | {
+            type: "CAMBIAR_ESTADO";
+            payload: {
+                id: number;
+                estado: string;
+            };
+        }
+        | {
+            type: "CARGAR_SOLICITUDES";
+            payload: Solicitud[];
         };
-      }
-    | {
-        type: "CARGAR_SOLICITUDES";
-        payload: Solicitud[];
-      };
 
 export function solicitudReducer(
     state: Solicitud[],
