@@ -1,50 +1,79 @@
-# Welcome to your Expo app 👋
+📺 Cable TV - App de Gestión de Solicitudes Técnicas
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Aplicación móvil desarrollada para optimizar la gestión de solicitudes de servicio técnico en campo (instalaciones, mantenimiento, cortes y reconexiones) de la empresa Cable TV. Permite a los técnicos administrar órdenes de trabajo de manera eficiente, segura y con persistencia de datos local.
 
-## Get started
+✨ Características Principales
 
-1. Install dependencies
+🔐 Autenticación Segura: Sistema de login y registro de operadores con persistencia local. Validación rigurosa de contraseñas y sanitización de inputs.
 
-   ```bash
-   npm install
-   ```
+📊 Dashboard Reactivo: Panel de control con métricas (KPIs) en tiempo real calculadas mediante memoización (useMemo), además de filtros interactivos por estado.
 
-2. Start the app
+📝 Gestión de Solicitudes: Creación, lectura y actualización (CRUD) de tickets de servicio técnico.
 
-   ```bash
-   npx expo start
-   ```
+🛡️ Prevención de Colisiones: Algoritmo que evita el registro de solicitudes duplicadas para un mismo número telefónico.
 
-In the output, you'll find options to open the app in a
+💾 Persistencia Asíncrona: Uso de AsyncStorage combinado con Context API y useReducer para mantener la información a salvo incluso si la app se cierra.
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+🛠️ Tecnologías Utilizadas
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+Framework: React Native + Expo Router (File-based routing)
 
-## Get a fresh project
+Lenguaje: TypeScript
 
-When you're ready, run:
+Estado Global: Context API + Reducers + Custom Hooks (useSolicitudes)
 
-```bash
-npm run reset-project
-```
+Almacenamiento: AsyncStorage
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+Estilos: Tailwind CSS (vía NativeWind) / Componentes funcionales desacoplados
 
-## Learn more
+📂 Estructura del Proyecto
 
-To learn more about developing your project with Expo, look at the following resources:
+📦 app-movil
+ ┣ 📂 app                 # Rutas de Expo Router (index, home, registro, detalle)
+ ┣ 📂 components          # Componentes visuales reutilizables (Botones, Tarjetas, Chips)
+ ┣ 📂 context             # Lógica de estado global (SolicitudContext, SolicitudReducer)
+ ┣ 📂 hooks               # Custom hooks (useSolicitudes)
+ ┣ 📂 models              # Contratos de tipado TypeScript (Interfaces)
+ ┣ 📂 utils               # Diccionarios inmutables y constantes globales
+ ┗ 📜 README.md
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
 
-## Join the community
+🚀 Instalación y Ejecución Local
 
-Join our community of developers creating universal apps.
+Para correr este proyecto en tu entorno local, asegúrate de tener instalado Node.js y la aplicación de Expo Go en tu dispositivo móvil.
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Clonar el repositorio:
+
+git clone https://github.com/Eromar31/app-movil
+cd app-movil
+
+
+Instalar las dependencias:
+
+npm install
+
+
+Iniciar el servidor de Expo:
+
+npx expo start
+
+
+Probar la aplicación:
+
+Escanea el código QR que aparece en la terminal con la cámara de tu iPhone o con la app de Expo Go en Android.
+
+Credenciales de prueba (Admin):
+
+Usuario: admin
+
+Contraseña: 1234
+
+👥 Equipo de Desarrollo (Grupo 8)
+
+👨‍💻 Erick - Arquitectura, Reducción de Estado Global y Pruebas de Software.
+
+👨‍💻 Jhonny - Seguridad, Persistencia de Datos y Componentes Visuales.
+
+
+Proyecto Final - Curso: Desarrollo de Aplicaciones Móviles
+Universidad Nacional de Ingeniería (UNI) - Facultad de Ingeniería de Sistemas (2026)
