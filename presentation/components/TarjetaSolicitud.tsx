@@ -1,5 +1,5 @@
-import { View, Text, TouchableOpacity } from "react-native";
-import { Solicitud } from "../models/Solicitud";
+import { Text, TouchableOpacity, View } from "react-native";
+import { Solicitud } from "../../domain/models/Solicitud";
 import ChipEstado from "./ChipEstado";
 
 interface Props {

@@ -1,10 +1,10 @@
-import { View, Text, Alert } from "react-native";
-import { useLocalSearchParams, router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
+import { Alert, Text, View } from "react-native";
 
-import CustomButton from "../components/custombutton";
-import ChipEstado from "../components/ChipEstado";
+import ChipEstado from "../presentation/components/ChipEstado";
+import CustomButton from "../presentation/components/custombutton";
 
-import { useSolicitudes } from "../hooks/useSolicitudes";
+import { useSolicitudes } from "../presentation/hooks/useSolicitudes";
 
 export default function Detalle() {
 

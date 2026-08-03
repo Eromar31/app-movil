@@ -1,63 +1,84 @@
-import "react-native-reanimated";
-import "../global.css";
-
 import { Stack } from "expo-router";
-import { SolicitudProvider } from "../context/SolicitudContext";
+import { StatusBar } from "expo-status-bar";
+import React from "react";
+import "../global.css";
+import { SolicitudProvider } from "../presentation/context/SolicitudContext";
 
 export default function RootLayout() {
   return (
     <SolicitudProvider>
+      {/* Configuración global de la barra de estado (la hora, batería, señal del celular) */}
+      <StatusBar style="light" backgroundColor="#1e3a8a" />
+
+      {}
       <Stack
         screenOptions={{
           headerStyle: {
-            backgroundColor: "#0D47A1",
+            backgroundColor: "#1e3a8a", 
           },
-          headerTintColor: "#fff",
+          headerTintColor: "#ffffff", 
           headerTitleStyle: {
             fontWeight: "bold",
           },
-          contentStyle: {
-            backgroundColor: "#F5F7FA",
-          },
+          headerTitleAlign: "center", 
+          animation: "slide_from_right", 
         }}
       >
+        {}
         <Stack.Screen
           name="index"
           options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="registrarUsuario"
-          options={{
-              title: "Crear Cuenta",
-          }}
-        />
-        <Stack.Screen
-          name="home"
-          options={{
-            title: "TV Conectando",
+            headerShown: false, 
           }}
         />
 
+        {}
+        <Stack.Screen
+          name="home"
+          options={{
+            headerShown: false, 
+          }}
+        />
+
+        {}
         <Stack.Screen
           name="registro"
           options={{
             title: "Nueva Solicitud",
+            presentation: "modal", 
           }}
         />
 
+        {}
         <Stack.Screen
           name="detalle"
           options={{
-            title: "Detalle",
+            title: "Detalles del Servicio",
           }}
         />
 
+        {}
         <Stack.Screen
           name="editar"
           options={{
             title: "Editar Solicitud",
+          }}
+        />
+
+        {}
+        <Stack.Screen
+          name="catalogo"
+          options={{
+            title: "Catálogo de Equipos",
+          }}
+        />
+
+        {}
+        <Stack.Screen
+          name="perfil"
+          options={{
+            title: "Perfil del Técnico",
+            presentation: "modal", 
           }}
         />
       </Stack>

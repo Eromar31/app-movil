@@ -1,4 +1,4 @@
-import { Solicitud } from "../models/Solicitud";
+import { Solicitud } from "../../domain/models/Solicitud";
 
 export type SolicitudAction =
         | {

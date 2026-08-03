@@ -10,5 +10,7 @@ export interface Solicitud {
     estado: string;
     tecnicoAsignado:string;
     fechaRegistro: string;
+    cantidad: number;
+    precio: number;
 
 }

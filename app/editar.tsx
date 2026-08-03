@@ -1,17 +1,17 @@
 import { useState } from "react";
 import {
-    View,
+    Alert,
+    ScrollView,
     Text,
     TextInput,
-    ScrollView,
-    Alert,
     TouchableOpacity,
+    View,
 } from "react-native";
 
-import { Stack, router, useLocalSearchParams } from "expo-router";
-import CustomButton from "../components/custombutton";
-import { useSolicitudes } from "../hooks/useSolicitudes";
 import { Picker } from "@react-native-picker/picker";
+import { router, useLocalSearchParams } from "expo-router";
+import CustomButton from "../presentation/components/custombutton";
+import { useSolicitudes } from "../presentation/hooks/useSolicitudes";
 
 const tiposServicio = [
     "Instalación Plan Básico",

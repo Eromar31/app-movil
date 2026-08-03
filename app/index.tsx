@@ -1,19 +1,19 @@
 import {
-  View,
-  Text,
-  TextInput,
   Alert,
   KeyboardAvoidingView,
-  ScrollView,
   Platform,
+  ScrollView,
+  Text,
+  TextInput,
   TouchableOpacity,
+  View,
 } from "react-native";
 
-import { useEffect, useState } from "react";
-import { router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import CustomButton from "../components/custombutton";
+import { router } from "expo-router";
+import { useEffect, useState } from "react";
+import CustomButton from "../presentation/components/custombutton";
 
 interface ErroresLogin {
   usuario?: string;
