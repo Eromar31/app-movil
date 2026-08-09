@@ -9,7 +9,7 @@ import TarjetaSolicitud from "../presentation/components/TarjetaSolicitud";
 import { useSolicitudes } from "../presentation/hooks/useSolicitudes";
 
 export default function Home() {
-    const { solicitudes } = useSolicitudes();
+    const { solicitudes, eliminarSolicitud, cambiarEstado } = useSolicitudes();
     const [textoBuscar, setTextoBuscar] = useState("");
     const [estadoSeleccionado, setEstadoSeleccionado] = useState("TODOS");
 
@@ -123,6 +123,9 @@ export default function Home() {
                     renderItem={({ item }) => (
                         <TarjetaSolicitud
                             solicitud={item}
+                            // Pasamos las funciones del contexto a la tarjeta
+                            onEliminar={(id) => eliminarSolicitud(id)}
+                            onCambiarEstado={(id, nuevoEstado) => cambiarEstado(id, nuevoEstado)}
                             onPress={() =>
                                 router.push({
                                     pathname: "/detalle",

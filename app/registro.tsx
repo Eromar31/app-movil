@@ -13,10 +13,12 @@ import {
 } from "react-native";
 import CustomButton from "../presentation/components/custombutton";
 import { useSolicitudes } from "../presentation/hooks/useSolicitudes";
+import { guardarSolicitudFirestore } from "../infrastructure/firebase/firestoreService";
 
 interface ErroresRegistro {
   nombre?: string;
   telefono?: string;
+  direccion?: string;
   tipo?: string;
   descripcion?: string;
   cantidad?: string;
@@ -45,6 +47,7 @@ const tecnicos = [
 export default function Registro() {
   const [nombre, setNombre] = useState("");
   const [telefono, setTelefono] = useState("");
+  const [direccion, setDireccion] = useState("");
   const [tipo, setTipo] = useState("");
   const [prioridad, setPrioridad] = useState("MEDIA");
   const [tecnicoAsignado, setTecnicoAsignado] = useState(tecnicos[0]);
@@ -58,7 +61,7 @@ export default function Registro() {
 
   useEffect(() => {
     if (formularioEnviado) validarFormulario();
-  }, [nombre, telefono, tipo, descripcion, cantidad, precio]);
+  }, [nombre, telefono, direccion, tipo, descripcion, cantidad, precio]);
 
   const validarFormulario = () => {
     const nuevosErrores: ErroresRegistro = {};
@@ -77,6 +80,11 @@ export default function Registro() {
       nuevosErrores.telefono = "Debe ingresar un celular válido de 9 dígitos.";
     } else if (solicitudes.some((s) => s.telefono === telefono)) {
       nuevosErrores.telefono = "Ya existe una solicitud con ese teléfono.";
+    }
+
+    // Dirección
+    if (!direccion.trim()) {
+      nuevosErrores.direccion = "Ingrese la dirección del cliente.";
     }
     
     // Tipo de servicio
@@ -105,14 +113,14 @@ export default function Registro() {
     return Object.keys(nuevosErrores).length === 0;
   };
 
-  const guardar = () => {
+  const guardar = async () => {
     setFormularioEnviado(true);
     if (!validarFormulario()) return;
     
     const nuevaSolicitud = {
       cliente: nombre.trim(),
       telefono,
-      direccion: "Sin dirección",
+      direccion: direccion.trim(),
       tipoServicio: tipo,
       prioridad,
       descripcion: descripcion.trim(),
@@ -124,10 +132,12 @@ export default function Registro() {
     };
     
     agregarSolicitud(nuevaSolicitud as any);
+
+    await guardarSolicitudFirestore(nuevaSolicitud as any);
     
     Alert.alert(
       "Solicitud registrada",
-      "La solicitud fue registrada correctamente.",
+      "La solicitud fue registrada correctamente en SQLite y Firestore.",
       [
         {
           text: "Aceptar",
@@ -138,6 +148,7 @@ export default function Registro() {
     
     setNombre("");
     setTelefono("");
+    setDireccion("");
     setTipo("");
     setPrioridad("MEDIA");
     setTecnicoAsignado(tecnicos[0]);
@@ -201,6 +212,18 @@ export default function Registro() {
               className={`bg-white border rounded-xl p-3.5 ${errores.telefono ? "border-red-500" : "border-gray-200"}`}
             />
             {errores.telefono && <Text className="text-red-500 text-sm mt-1">⚠️ {errores.telefono}</Text>}
+          </View>
+
+          <View className="mb-4">
+            <Text className="text-gray-700 font-semibold mb-2">Dirección</Text>
+            <TextInput
+              placeholder="Ej. Av. Los Próceres 123"
+              value={direccion}
+              onChangeText={setDireccion}
+              autoCapitalize="words"
+              className={`bg-white border rounded-xl p-3.5 ${errores.direccion ? "border-red-500" : "border-gray-200"}`}
+            />
+            {errores.direccion && <Text className="text-red-500 text-sm mt-1">⚠️ {errores.direccion}</Text>}
           </View>
 
           <View className="mb-4">
@@ -280,8 +303,7 @@ export default function Registro() {
           </View>
 
           <CustomButton titulo="Guardar Solicitud" onPress={guardar} />
-          
-          {/* Espacio extra invisible para que el teclado no tape el botón ni el input */}
+         
           <View className="h-20" />
         </View>
       </ScrollView>
