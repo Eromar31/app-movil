@@ -1,40 +1,38 @@
-📺 Cable TV - App de Gestión de Solicitudes Técnicas
+# 📺 Cable TV - App de Gestión de Solicitudes Técnicas
 
-Aplicación móvil desarrollada para optimizar la gestión de solicitudes de servicio técnico en campo (instalaciones, mantenimiento, cortes y reconexiones) de la empresa Cable TV. Permite a los técnicos administrar órdenes de trabajo de manera eficiente, segura y con persistencia de datos local.
+Aplicación móvil desarrollada para optimizar la gestión de solicitudes de servicio técnico en campo (instalaciones, mantenimiento, cortes y reconexiones) de la empresa Cable TV. Permite a los técnicos administrar órdenes de trabajo de manera eficiente, segura y con persistencia de datos local estructurada.
 
-✨ Características Principales
+## ✨ Características Principales
 
-🔐 Autenticación Segura: Sistema de login y registro de operadores con persistencia local. Validación rigurosa de contraseñas y sanitización de inputs.
+*   **🔐 Autenticación Segura:** Sistema de login y registro de operadores con persistencia local. Validación rigurosa de contraseñas y sanitización de inputs.
+*   **📊 Dashboard Reactivo:** Panel de control con métricas (KPIs) en tiempo real calculadas mediante memoización (`useMemo`), además de filtros interactivos por estado.
+*   **📝 Gestión de Solicitudes (CRUD):** Creación, lectura y actualización de tickets de servicio técnico (incluyendo cálculo de cantidades y precios).
+*   **💾 Persistencia Relacional:** Migración exitosa a **SQLite** para un almacenamiento local robusto, estructurado y rápido, evitando la pérdida de información.
+*   **🌐 Consumo de API REST:** Integración asíncrona con servicios externos (`fetch`) para la visualización del catálogo de equipos en tiempo real.
+*   **👤 Perfil de Operador:** Vista dedicada para el monitoreo del estado de la sesión, la base de datos local y la información del técnico.
+*   **🛡️ Prevención de Colisiones:** Algoritmo que evita el registro de solicitudes duplicadas para un mismo número telefónico.
 
-📊 Dashboard Reactivo: Panel de control con métricas (KPIs) en tiempo real calculadas mediante memoización (useMemo), además de filtros interactivos por estado.
+## 🛠️ Tecnologías Utilizadas
 
-📝 Gestión de Solicitudes: Creación, lectura y actualización (CRUD) de tickets de servicio técnico.
+*   **Framework:** React Native + Expo Router (File-based routing)
+*   **Lenguaje:** TypeScript
+*   **Arquitectura:** Clean Architecture (Domain, Infrastructure, Presentation)
+*   **Almacenamiento:** SQLite (`expo-sqlite`)
+*   **Estado Global:** Context API + Reducers + Custom Hooks (`useSolicitudes`)
+*   **Estilos:** Tailwind CSS (vía NativeWind v4) / Componentes funcionales desacoplados
 
-🛡️ Prevención de Colisiones: Algoritmo que evita el registro de solicitudes duplicadas para un mismo número telefónico.
+## 📂 Estructura del Proyecto
 
-💾 Persistencia Asíncrona: Uso de AsyncStorage combinado con Context API y useReducer para mantener la información a salvo incluso si la app se cierra.
+El código está organizado siguiendo los principios de **Arquitectura Limpia**, separando las responsabilidades de la aplicación:
 
-🛠️ Tecnologías Utilizadas
-
-Framework: React Native + Expo Router (File-based routing)
-
-Lenguaje: TypeScript
-
-Estado Global: Context API + Reducers + Custom Hooks (useSolicitudes)
-
-Almacenamiento: AsyncStorage
-
-Estilos: Tailwind CSS (vía NativeWind) / Componentes funcionales desacoplados
-
-📂 Estructura del Proyecto
-
+```text
 📦 app-movil
- ┣ 📂 app                 # Rutas de Expo Router (index, home, registro, detalle)
- ┣ 📂 components          # Componentes visuales reutilizables (Botones, Tarjetas, Chips)
- ┣ 📂 context             # Lógica de estado global (SolicitudContext, SolicitudReducer)
- ┣ 📂 hooks               # Custom hooks (useSolicitudes)
- ┣ 📂 models              # Contratos de tipado TypeScript (Interfaces)
- ┣ 📂 utils               # Diccionarios inmutables y constantes globales
+ ┣ 📂 app               # Vistas principales y enrutamiento (Expo Router)
+ ┣ 📂 domain            # Lógica de negocio y modelos de datos (Interfaces TypeScript)
+ ┣ 📂 infrastructure    # Capa de datos y persistencia (Gestor SQLite y consultas SQL)
+ ┣ 📂 presentation      # Capa visual: Componentes UI, Context API y Custom Hooks
+ ┣ 📜 global.css        # Motor de estilos globales de Tailwind CSS
+ ┣ 📜 metro.config.js   # Configuración de empaquetador para NativeWind y WebAssembly
  ┗ 📜 README.md
 
 
