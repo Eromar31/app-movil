@@ -2,32 +2,38 @@ import { router } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { ActivityIndicator, Alert, FlatList, Text, TouchableOpacity, View } from "react-native";
 
-// Interfaz para tipar los datos que vienen de la API
-interface Producto {
+interface ProductoCable {
   id: number;
-  title: string;
-  price: number;
-  description: string;
-  category: string;
+  producto: string;
+  categoria: string;
+  precio: string;
 }
 
+
+const DATOS_CATALOGO_MOCK: ProductoCable[] = [
+  { id: 1, producto: "Conector RG6", categoria: "Conectores", precio: "S/ 1.50" },
+  { id: 2, producto: "Cable coaxial RG6", categoria: "Cableado", precio: "S/ 2.50 / metro" },
+  { id: 3, producto: "Fibra óptica", categoria: "Cableado", precio: "S/ 3.50 / metro" },
+  { id: 4, producto: "Divisor 1x2", categoria: "Divisores", precio: "S/ 8.00" },
+  { id: 5, producto: "Divisor 1x4", categoria: "Divisores", precio: "S/ 15.00" },
+  { id: 6, producto: "Nodo óptico", categoria: "Equipos de red", precio: "S/ 180.00" },
+  { id: 7, producto: "Amplificador CATV", categoria: "Equipos de red", precio: "S/ 250.00" },
+  { id: 8, producto: "Grapas para cable coaxial", categoria: "Accesorios", precio: "S/ 0.20" },
+  { id: 9, producto: "Conector de fibra óptica", categoria: "Conectores", precio: "S/ 5.00" },
+  { id: 10, producto: "Fuente de alimentación CATV", categoria: "Equipos", precio: "S/ 80.00" },
+];
+
 export default function Catalogo() {
-  const [productos, setProductos] = useState<Producto[]>([]);
+  const [productos, setProductos] = useState<ProductoCable[]>([]);
   const [cargando, setCargando] = useState(true);
 
-  // Función asíncrona para consumir la API REST externa (Requisito EFP)
   const cargarCatalogo = async () => {
     try {
       setCargando(true);
-      // Usamos una API pública de prueba (FakeStoreAPI) simulando equipos electrónicos
-      const response = await fetch("https://fakestoreapi.com/products/category/electronics?limit=5");
       
-      if (!response.ok) {
-        throw new Error("Error en la respuesta del servidor");
-      }
+      await new Promise((resolve) => setTimeout(resolve, 1500));
       
-      const data = await response.json();
-      setProductos(data);
+      setProductos(DATOS_CATALOGO_MOCK);
     } catch (error) {
       console.error(error);
       Alert.alert("Error", "No se pudo cargar el catálogo de equipos.");
@@ -47,13 +53,12 @@ export default function Catalogo() {
       </TouchableOpacity>
 
       <Text className="text-2xl font-bold text-blue-900 mb-2">📦 Catálogo de Equipos</Text>
-      <Text className="text-gray-500 mb-6">Equipos disponibles (Datos desde API REST)</Text>
+      <Text className="text-gray-500 mb-6">Lista de precios referenciales - TV Conectando</Text>
 
-      {/* Condicional de renderizado: Mostrar el loader si está cargando */}
       {cargando ? (
         <View className="flex-1 justify-center items-center">
           <ActivityIndicator size="large" color="#1e3a8a" />
-          <Text className="mt-4 text-gray-600">Descargando catálogo...</Text>
+          <Text className="mt-4 text-gray-600">Sincronizando inventario...</Text>
         </View>
       ) : (
         <FlatList
@@ -62,18 +67,21 @@ export default function Catalogo() {
           showsVerticalScrollIndicator={false}
           renderItem={({ item }) => (
             <View className="bg-white p-4 rounded-2xl mb-4 shadow border border-gray-200">
-              <View className="flex-row justify-between">
-                <Text className="font-bold text-lg text-gray-800 flex-1 mr-2" numberOfLines={1}>
-                  {item.title}
-                </Text>
-                <Text className="font-bold text-green-600 text-lg">
-                  ${item.price}
-                </Text>
+              <View className="flex-row justify-between items-center">
+                <View className="flex-1">
+                  <Text className="font-bold text-lg text-gray-800" numberOfLines={1}>
+                    {item.producto}
+                  </Text>
+                  <Text className="text-gray-400 text-xs uppercase mt-1 font-bold">
+                    {item.categoria}
+                  </Text>
+                </View>
+                <View className="bg-green-100 px-3 py-1 rounded-xl">
+                  <Text className="font-bold text-green-700 text-base">
+                    {item.precio}
+                  </Text>
+                </View>
               </View>
-              <Text className="text-gray-400 text-xs uppercase my-1 font-bold">{item.category}</Text>
-              <Text className="text-gray-600 mt-2 text-sm leading-5" numberOfLines={3}>
-                {item.description}
-              </Text>
             </View>
           )}
         />

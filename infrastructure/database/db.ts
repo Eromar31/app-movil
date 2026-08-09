@@ -5,10 +5,8 @@ const db = SQLite.openDatabaseSync('tvconectando.db');
 
 export const initDB = () => {
   try {
-    // Eliminamos la tabla anterior y la creamos con los nuevos campos para evitar conflictos de esquema
+    
     db.execSync(`
-      DROP TABLE IF EXISTS solicitudes;
-      
       CREATE TABLE IF NOT EXISTS solicitudes (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         cliente TEXT NOT NULL,
@@ -24,7 +22,7 @@ export const initDB = () => {
         precio REAL NOT NULL
       );
     `);
-    console.log("Tabla 'solicitudes' actualizada con cantidad y precio.");
+    console.log("Base de datos de solicitudes inicializada correctamente.");
   } catch (error) {
     console.error("Error al inicializar la base de datos", error);
   }

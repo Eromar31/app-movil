@@ -150,12 +150,15 @@ export default function Registro() {
 
   return (
     <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      className="flex-1 bg-gray-50"
+      behavior={Platform.OS === "ios" ? "padding" : "padding"} 
+      style={{ flex: 1 }}
+      className="bg-gray-50"
+      keyboardVerticalOffset={Platform.OS === "ios" ? 64 : 20}
     >
       <ScrollView
-        contentContainerStyle={{ flexGrow: 1 }}
+        contentContainerStyle={{ flexGrow: 1, paddingBottom: 60 }} 
         keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
       >
         <TouchableOpacity
           onPress={() => router.replace("/home")}
@@ -277,6 +280,9 @@ export default function Registro() {
           </View>
 
           <CustomButton titulo="Guardar Solicitud" onPress={guardar} />
+          
+          {/* Espacio extra invisible para que el teclado no tape el botón ni el input */}
+          <View className="h-20" />
         </View>
       </ScrollView>
     </KeyboardAvoidingView>
