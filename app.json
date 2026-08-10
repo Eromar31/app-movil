@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "solicitudes",
-    "slug": "solicitudes",
+    "slug": "tv-conectando",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -19,7 +19,8 @@
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.jhonnyrondonsteam.tvconectando"
     },
     "web": {
       "output": "static",
@@ -44,6 +45,13 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "b3bc8773-e12a-469f-b0a0-bc002cd6045b"
+      }
+    },
+    "owner": "jhonnyrondons-team"
   }
 }
