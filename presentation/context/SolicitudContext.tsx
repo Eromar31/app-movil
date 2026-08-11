@@ -49,12 +49,12 @@ export function SolicitudProvider({ children }: ProviderProps) {
     }, []);
 
     async function agregarSolicitud(solicitud: Solicitud) {
-        
+ 
         const idGenerado = guardarSolicitudDB(solicitud);
         
         if (idGenerado) {
             const nuevaSolicitud = { ...solicitud, id: idGenerado as number };
-            
+
             await guardarSolicitudFirestore(solicitud);
 
             dispatch({
@@ -65,21 +65,31 @@ export function SolicitudProvider({ children }: ProviderProps) {
     }
 
     async function actualizarSolicitud(solicitud: Solicitud) {
-      
-        actualizarSolicitudDB(solicitud);
         
-        await actualizarSolicitudFirestore(solicitud.cliente, solicitud.telefono, solicitud);
+        const solicitudAntigua = solicitudes.find((s) => s.id === solicitud.id);
+        
+        if (solicitudAntigua) {
+        
+            actualizarSolicitudDB(solicitud);
 
-        dispatch({
-            type: "ACTUALIZAR_SOLICITUD",
-            payload: solicitud,
-        }); 
+            await actualizarSolicitudFirestore(
+                solicitudAntigua.cliente, 
+                solicitudAntigua.telefono, 
+                solicitud
+            );
+
+            dispatch({
+                type: "ACTUALIZAR_SOLICITUD",
+                payload: solicitud,
+            }); 
+        }
     }
 
     async function eliminarSolicitud(id: number) {
         const solicitud = solicitudes.find((s) => s.id === id);
         
         if (solicitud) {
+
             eliminarSolicitudDB(id); 
             
             await eliminarSolicitudFirestore(solicitud.cliente, solicitud.telefono);
