@@ -1,6 +1,8 @@
 import { useState } from "react";
 import {
     Alert,
+    KeyboardAvoidingView,
+    Platform,
     ScrollView,
     Text,
     TextInput,
@@ -37,7 +39,6 @@ const tecnicos = [
 ];
 
 export default function Editar() {
-
     const { id } = useLocalSearchParams();
 
     const {
@@ -64,13 +65,10 @@ export default function Editar() {
     const [direccion, setDireccion] = useState(solicitudActual.direccion);
     const [tipoServicio, setTipoServicio] = useState(solicitudActual.tipoServicio);
     const [prioridad, setPrioridad] = useState(solicitudActual.prioridad);
-    const [tecnicoAsignado, setTecnicoAsignado] = useState(
-    solicitudActual.tecnicoAsignado);
+    const [tecnicoAsignado, setTecnicoAsignado] = useState(solicitudActual.tecnicoAsignado);
     const [descripcion, setDescripcion] = useState(solicitudActual.descripcion);
 
-
     function guardarCambios() {
-
         if (!cliente.trim()) {
             Alert.alert("Error", "Ingrese el nombre del cliente.");
             return;
@@ -87,7 +85,6 @@ export default function Editar() {
         }
 
         actualizarSolicitud({
-
             ...solicitudActual,
             cliente,
             telefono,
@@ -104,149 +101,130 @@ export default function Editar() {
         );
 
         router.replace("/home");
-
     }
 
     return (
-    
+        /* Envolvemos todo en el KeyboardAvoidingView */
+        <KeyboardAvoidingView 
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+            style={{ flex: 1 }}
+        >
+            <ScrollView className="flex-1 bg-gray-100">
+                <View className="p-5">
 
-        <ScrollView className="flex-1 bg-gray-100">
+                    <TouchableOpacity
+                        onPress={() => router.replace("/home")}
+                        className="mb-5"
+                    >
+                        <Text className="text-blue-700 font-bold text-lg">
+                            🏠 Inicio
+                        </Text>
+                    </TouchableOpacity>
 
-            <View className="p-5">
-
-                <TouchableOpacity
-                    onPress={() => router.replace("/home")}
-                    className="mb-5"
-                >
-
-                    <Text className="text-blue-700 font-bold text-lg">
-
-                        🏠 Inicio
-
+                    <Text className="text-3xl font-bold text-blue-900 mb-6">
+                        Editar Solicitud
                     </Text>
 
-                </TouchableOpacity>
+                    <Text className="font-bold">Cliente</Text>
+                    <TextInput
+                        value={cliente}
+                        onChangeText={(texto) =>
+                            setCliente(
+                                texto.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, "")
+                            )
+                        }
+                        className="bg-white rounded-xl p-3 mt-2 mb-4"
+                    />
 
-                <Text className="text-3xl font-bold text-blue-900 mb-6">
-                    Editar Solicitud
-                </Text>
+                    <Text className="font-bold">Teléfono</Text>
+                    <TextInput
+                        value={telefono}
+                        onChangeText={(texto) =>
+                            setTelefono(texto.replace(/[^0-9]/g, ""))
+                        }
+                        keyboardType="numeric"
+                        maxLength={9}
+                        className="bg-white rounded-xl p-3 mt-2 mb-4"
+                    />
 
-                <Text className="font-bold">Cliente</Text>
-                <TextInput
-                    value={cliente}
-                    onChangeText={(texto) =>
-                        setCliente(
-                            texto.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, "")
-                        )
-                    }
-                    className="bg-white rounded-xl p-3 mt-2 mb-4"
-                />
-                <Text className="font-bold">Teléfono</Text>
-                <TextInput
-                    value={telefono}
-                    onChangeText={(texto) =>
-                        setTelefono(texto.replace(/[^0-9]/g, ""))
-                    }
-                    keyboardType="numeric"
-                    maxLength={9}
-                    className="bg-white rounded-xl p-3 mt-2 mb-4"
-                />
+                    <Text className="font-bold">Dirección</Text>
+                    <TextInput
+                        value={direccion}
+                        onChangeText={setDireccion}
+                        className="bg-white rounded-xl p-3 mt-2 mb-4"
+                    />
 
-                <Text className="font-bold">Dirección</Text>
+                    <Text className="font-bold">
+                        Tipo de Servicio
+                    </Text>
+                    <View className="bg-white rounded-xl border border-gray-300 mb-4 mt-2">
+                        <Picker
+                            selectedValue={tipoServicio}
+                            onValueChange={setTipoServicio}
+                        >
+                            {tiposServicio.map((item) => (
+                                <Picker.Item
+                                    key={item}
+                                    label={item}
+                                    value={item}
+                                />
+                            ))}
+                        </Picker>
+                    </View>
 
-                <TextInput
-                    value={direccion}
-                    onChangeText={setDireccion}
-                    className="bg-white rounded-xl p-3 mt-2 mb-4"
-                />
+                    <Text className="font-bold">
+                        Prioridad
+                    </Text>
+                    <View className="bg-white rounded-xl border border-gray-300 mb-4 mt-2">
+                        <Picker
+                            selectedValue={prioridad}
+                            onValueChange={setPrioridad}
+                        >
+                            {prioridades.map((item) => (
+                                <Picker.Item
+                                    key={item}
+                                    label={item}
+                                    value={item}
+                                />
+                            ))}
+                        </Picker>
+                    </View>
 
-                <Text className="font-bold">
-                    Tipo de Servicio
-                </Text>
+                    <Text className="font-bold">
+                        Técnico Asignado
+                    </Text>
+                    <View className="bg-white rounded-xl border border-gray-300 mb-4 mt-2">
+                        <Picker
+                            selectedValue={tecnicoAsignado}
+                            onValueChange={setTecnicoAsignado}
+                        >
+                            {tecnicos.map((item) => (
+                                <Picker.Item
+                                    key={item}
+                                    label={item}
+                                    value={item}
+                                />
+                            ))}
+                        </Picker>
+                    </View>
 
-                <View className="bg-white rounded-xl border border-gray-300 mb-4 mt-2">
+                    <Text className="font-bold">Descripción</Text>
+                    <TextInput
+                        multiline
+                        value={descripcion}
+                        onChangeText={setDescripcion}
+                        className="bg-white rounded-xl p-3 mt-2 h-28 mb-8"
+                    />
 
-                    <Picker
-                        selectedValue={tipoServicio}
-                        onValueChange={setTipoServicio}
-                    >
-                        {tiposServicio.map((item) => (
-
-                            <Picker.Item
-                                key={item}
-                                label={item}
-                                value={item}
-                            />
-
-                        ))}
-                    </Picker>
-
-                </View>
-
-                <Text className="font-bold">
-                    Prioridad
-                </Text>
-
-                <View className="bg-white rounded-xl border border-gray-300 mb-4 mt-2">
-
-                    <Picker
-                        selectedValue={prioridad}
-                        onValueChange={setPrioridad}
-                    >
-                        {prioridades.map((item) => (
-
-                            <Picker.Item
-                                key={item}
-                                label={item}
-                                value={item}
-                            />
-
-                        ))}
-                    </Picker>
-
-                </View>
-
-                <Text className="font-bold">
-                    Técnico Asignado
-                </Text>
-
-                <View className="bg-white rounded-xl border border-gray-300 mb-4 mt-2">
-
-                    <Picker
-                        selectedValue={tecnicoAsignado}
-                        onValueChange={setTecnicoAsignado}
-                    >
-                        {tecnicos.map((item) => (
-
-                            <Picker.Item
-                                key={item}
-                                label={item}
-                                value={item}
-                            />
-
-                        ))}
-                    </Picker>
+                    <View className="mt-4 mb-12"> 
+                        <CustomButton
+                            titulo="Guardar Cambios"
+                            onPress={guardarCambios}
+                        />
+                    </View>
 
                 </View>
-
-                <Text className="font-bold">Descripción</Text>
-
-                <TextInput
-                    multiline
-                    value={descripcion}
-                    onChangeText={setDescripcion}
-                    className="bg-white rounded-xl p-3 mt-2 h-28 mb-8"
-                />
-
-                <CustomButton
-                    titulo="Guardar Cambios"
-                    onPress={guardarCambios}
-                />
-
-            </View>
-
-        </ScrollView>
-
+            </ScrollView>
+        </KeyboardAvoidingView>
     );
-
 }

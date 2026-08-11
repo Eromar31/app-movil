@@ -9,6 +9,12 @@ import {
 } from "../../infrastructure/database/db";
 import { solicitudReducer } from "./SolicitudReducer";
 
+import {
+    actualizarSolicitudFirestore,
+    eliminarSolicitudFirestore,
+    guardarSolicitudFirestore
+} from "../../infrastructure/firebase/firestoreService";
+
 interface SolicitudContextType {
     solicitudes: Solicitud[];
     agregarSolicitud: (solicitud: Solicitud) => void;
@@ -29,10 +35,8 @@ export function SolicitudProvider({ children }: ProviderProps) {
     const [solicitudes, dispatch] = useReducer(solicitudReducer, []);
 
     useEffect(() => {
-        // 1. Inicializamos la base de datos (crea la tabla si no existe)
         initDB();
         
-        // 2. Consultamos SQLite y cargamos los datos en la interfaz
         const cargarDatos = () => {
             const datosGuardados = obtenerSolicitudesDB();
             dispatch({
@@ -44,16 +48,15 @@ export function SolicitudProvider({ children }: ProviderProps) {
         cargarDatos();
     }, []);
 
-    // ===========================
-    // ACCIONES CONECTADAS A SQLITE
-    // ===========================
-
-    function agregarSolicitud(solicitud: Solicitud) {
-        // Guardamos en la BD. Ignoramos el ID de la interfaz y usamos el AUTOINCREMENT de SQLite
+    async function agregarSolicitud(solicitud: Solicitud) {
+        
         const idGenerado = guardarSolicitudDB(solicitud);
         
         if (idGenerado) {
             const nuevaSolicitud = { ...solicitud, id: idGenerado as number };
+            
+            await guardarSolicitudFirestore(solicitud);
+
             dispatch({
                 type: "AGREGAR_SOLICITUD",
                 payload: nuevaSolicitud,
@@ -61,31 +64,47 @@ export function SolicitudProvider({ children }: ProviderProps) {
         }
     }
 
-    function actualizarSolicitud(solicitud: Solicitud) {
-        actualizarSolicitudDB(solicitud); // Persiste en BD
+    async function actualizarSolicitud(solicitud: Solicitud) {
+      
+        actualizarSolicitudDB(solicitud);
+        
+        await actualizarSolicitudFirestore(solicitud.cliente, solicitud.telefono, solicitud);
+
         dispatch({
             type: "ACTUALIZAR_SOLICITUD",
             payload: solicitud,
-        }); // Refleja en pantalla
+        }); 
     }
 
-    function eliminarSolicitud(id: number) {
-        eliminarSolicitudDB(id); // Borra de BD
-        dispatch({
-            type: "ELIMINAR_SOLICITUD",
-            payload: id,
-        }); // Quita de pantalla
-    }
-
-    function cambiarEstado(id: number, estado: string) {
+    async function eliminarSolicitud(id: number) {
         const solicitud = solicitudes.find((s) => s.id === id);
+        
+        if (solicitud) {
+            eliminarSolicitudDB(id); 
+            
+            await eliminarSolicitudFirestore(solicitud.cliente, solicitud.telefono);
+
+            dispatch({
+                type: "ELIMINAR_SOLICITUD",
+                payload: id,
+            }); 
+        }
+    }
+
+    async function cambiarEstado(id: number, estado: string) {
+        const solicitud = solicitudes.find((s) => s.id === id);
+        
         if (solicitud) {
             const solicitudActualizada = { ...solicitud, estado };
-            actualizarSolicitudDB(solicitudActualizada); // Actualiza en BD
+            
+            actualizarSolicitudDB(solicitudActualizada); 
+            
+            await actualizarSolicitudFirestore(solicitud.cliente, solicitud.telefono, { estado });
+
             dispatch({
                 type: "CAMBIAR_ESTADO",
                 payload: { id, estado },
-            }); // Refleja en pantalla
+            }); 
         }
     }
 

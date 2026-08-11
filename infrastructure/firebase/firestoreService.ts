@@ -1,7 +1,6 @@
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, getDocs, query, updateDoc, where } from "firebase/firestore";
 import { Solicitud } from "../../domain/models/Solicitud";
 import { auth, dbFirestore } from "./firebaseConfig";
-
 
 const NOMBRE_COLECCION = "solicitudes";
 
@@ -24,3 +23,43 @@ export const guardarSolicitudFirestore = async (solicitud: Omit<Solicitud, "id">
     return null;
   }
 };
+
+export const eliminarSolicitudFirestore = async (cliente: string, telefono: string) => {
+  try {
+    const q = query(
+        collection(dbFirestore, NOMBRE_COLECCION),
+        where("cliente", "==", cliente),
+        where("telefono", "==", telefono)
+    );
+
+    const querySnapshot = await getDocs(q);
+
+    for (const documento of querySnapshot.docs) {
+        await deleteDoc(documento.ref);
+    }
+    
+    console.log("Eliminado de Firestore correctamente");
+  } catch (error) {
+    console.error("Error al eliminar de Firestore:", error);
+  }
+};
+
+export const actualizarSolicitudFirestore = async (cliente: string, telefono: string, nuevosDatos: any) => {
+    try {
+      const q = query(
+          collection(dbFirestore, NOMBRE_COLECCION),
+          where("cliente", "==", cliente),
+          where("telefono", "==", telefono)
+      );
+  
+      const querySnapshot = await getDocs(q);
+      
+      for (const documento of querySnapshot.docs) {
+          await updateDoc(documento.ref, nuevosDatos);
+      }
+      
+      console.log("Actualizado en Firestore correctamente");
+    } catch (error) {
+      console.error("Error al actualizar en Firestore:", error);
+    }
+  };

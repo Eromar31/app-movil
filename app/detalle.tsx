@@ -43,14 +43,18 @@ export default function Detalle() {
                 {
                     text: "Eliminar",
                     style: "destructive",
-                    onPress: () => {
+                    onPress: async() => {
 
-                        eliminarSolicitud(solicitudActual.id);
-
+                        try {
+                            
+                        await eliminarSolicitud(solicitudActual.id);
+                        
                         router.replace("/home");
-
-                    },
-                },
+                    } catch (error) {
+                        Alert.alert("Error", "Hubo un problema al intentar eliminar en la nube.");
+                    }
+                }
+                }
             ]
         );
 

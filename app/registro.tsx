@@ -13,7 +13,6 @@ import {
 } from "react-native";
 import CustomButton from "../presentation/components/custombutton";
 import { useSolicitudes } from "../presentation/hooks/useSolicitudes";
-import { guardarSolicitudFirestore } from "../infrastructure/firebase/firestoreService";
 
 interface ErroresRegistro {
   nombre?: string;
@@ -132,12 +131,10 @@ export default function Registro() {
     };
     
     agregarSolicitud(nuevaSolicitud as any);
-
-    await guardarSolicitudFirestore(nuevaSolicitud as any);
     
     Alert.alert(
       "Solicitud registrada",
-      "La solicitud fue registrada correctamente en SQLite y Firestore.",
+      "La solicitud fue registrada correctamente.",
       [
         {
           text: "Aceptar",
