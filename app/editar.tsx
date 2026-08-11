@@ -104,12 +104,16 @@ export default function Editar() {
     }
 
     return (
-        /* Envolvemos todo en el KeyboardAvoidingView */
         <KeyboardAvoidingView 
             behavior={Platform.OS === "ios" ? "padding" : "height"}
             style={{ flex: 1 }}
         >
-            <ScrollView className="flex-1 bg-gray-100">
+           
+            <ScrollView 
+                className="flex-1 bg-gray-100"
+                contentContainerStyle={{ flexGrow: 1, paddingBottom: 100 }}
+                keyboardShouldPersistTaps="handled"
+            >
                 <View className="p-5">
 
                     <TouchableOpacity

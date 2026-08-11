@@ -137,7 +137,7 @@ export default function Home() {
                 />
             </View>
 
-            <View className="absolute bottom-8 right-6">
+            <View className="absolute bottom-16 right-6">
                 <CustomButton
                     titulo="+ Nueva"
                     onPress={() => router.push("/registro")}
